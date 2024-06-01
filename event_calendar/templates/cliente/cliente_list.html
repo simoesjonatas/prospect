@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Cliente List{% endblock title %}
+
+{% block breadcrumb %}
+    <div>
+        <h1><i class="fa fa-user fa-lg"></i> Clientes</h1>
+        <p>Cliente List</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="clearfix">
+                    <a class="btn btn-success right" href="{% url 'calendarapp:client_new' %}"> Adicionar Cliente </a>
+                </div>
+                <hr>
+                <div class="table-responsive">
+                    <form method="GET" action="{% url 'calendarapp:all_clients' %}">
+
+                        <label for="status_filter">Filtrar por status:</label>
+                        <select name="status_filter" id="status_filter">
+                            <option value="">Todos</option>
+                            {% for status in status_choices %}
+                                <option {% if status.id == selected_status %} selected {% endif %} value="{{ status.id }}">{{ status.nome }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+                        {% if selected_status %}
+                            <a href="{% url 'calendarapp:all_clients' %}" class="btn btn-outline-secondary">Limpar Filtro</a>
+                        {% endif %}
+                    </form>
+                    <div id="sampleTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" role="grid" aria-describedby="sampleTable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <!-- <th class="sorting_asc" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 261.641px;">ID</th> -->
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 102.141px;">Cod.</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 417.312px;">Nome</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 189.281px;">Telefone</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">Email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">Status</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">Usuario Designado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for event in object_list %}
+                                            <tr role="row" class="odd" onclick="window.location.href='{% url 'calendarapp:client-detail' event.id %}'">
+                                                <!-- <td class="sorting_1">{{ forloop.counter }}</td> -->
+                                                <td>{{ event.codigo |default_if_none:"" }}</td>
+                                                <td>{{ event.nome }}</td>
+                                                <td>{{ event.telefone |default_if_none:"" }}</td>
+                                                <td>{{ event.email |default_if_none:"" }}</td>
+                                                <td>{{ event.status }}</td>
+                                                <td>{{ event.usuario_designado |default_if_none:"" }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block extrascripts %}
+    <script type="text/javascript" src="{% static 'js/plugins/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/plugins/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript">$('#sampleTable').DataTable();</script>
+{% endblock extrascripts %}

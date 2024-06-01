@@ -1,0 +1,19 @@
+version: '3.8'
+  
+services:
+  val_prospect:
+    container_name: val_prospect
+    hostname: val_prospect
+    restart: always
+    build: .
+    # command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./event_calendar:/code
+      # - oficina_static:/code/staticfiles/
+    ports:
+      - "8010:8000"
+
+
+# volumes:
+#   oficina_static:

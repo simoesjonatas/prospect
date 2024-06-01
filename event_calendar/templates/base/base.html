@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    {% load static %}
+    <head>
+        <meta name="description" content="Prospect Dashboard" />
+        <title>{% block title %}{% endblock title  %}</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="{% static 'images/js.ico' %}" type="image/x-icon">
+        <!-- Main CSS-->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+        <!-- Font-icon css-->
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        {% block extracss %}
+        {% endblock extracss %}
+        <!-- Incluir jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Incluir Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <!-- Incluir Select2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        {{ form.media }}
+        
+        <style>
+            .app-sidebar {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100vh;
+            }
+            .app-sidebar__footer {
+                margin-top: auto;
+                padding: 10px;
+            }
+        </style>
+        <script>
+            function togglePasswordVisibility() {
+                const passwordField = document.getElementById('new_password');
+                const passwordFieldType = passwordField.getAttribute('type');
+                if (passwordFieldType === 'password') {
+                    passwordField.setAttribute('type', 'text');
+                } else {
+                    passwordField.setAttribute('type', 'password');
+                }
+            }
+        </script>
+    </head>
+    {% if user.is_authenticated %}
+    <body class="app sidebar-mini">
+        <!-- Navbar-->
+        <header class="app-header">
+            <a class="app-header__logo" href="#">Prospect Calendar</a>
+            <!-- Sidebar toggle button-->
+            <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+            <!-- Navbar Right Menu-->
+            <ul class="app-nav">
+                <!-- User Menu-->
+                <li class="dropdown">
+                    <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+                    <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                        {% if request.user.is_superuser %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog fa-lg"></i> Admin</a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'accounts:update_user' %}"><i class="fa fa-user fa-lg"></i> Usuário</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'accounts:signout' %}"><i class="fa fa-sign-out fa-lg"></i> Sair</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </header>
+        <!-- Sidebar menu-->
+        <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+        <aside class="app-sidebar">
+            <div class="app-sidebar__user">
+                <img class="app-sidebar__user-avatar" src="{% static 'images/logo_op.png' %}" alt="User Image" height="50px" width="50px"/>
+                <div>
+                    <p class="app-sidebar__user-designation">
+                        {%if user%}
+                            {{user}}
+                        {%endif%}
+                    </p>
+                </div>
+            </div>
+            <ul class="app-menu">
+                {% if request.user.is_staff %}
+                <li>
+                    <a class="app-menu__item" href="{% url 'dashboard' %}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a>
+                    <!-- <a class="app-menu__item active" href="{% url 'dashboard' %}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a> -->
+                </li>
+                {% endif %}
+                <li>
+                    <a class="app-menu__item" href="{% url 'calendarapp:all_clients' %}"><i class="app-menu__icon fa fa-user fa-lg"></i><span class="app-menu__label">Clientes</span></a>
+                </li>
+                <li>
+                    <a class="app-menu__item" href="{% url 'calendarapp:calendar' %}"><i class="app-menu__icon fa fa-calendar"></i><span class="app-menu__label">Calendar</span></a>
+                </li>
+                <li class="treeview">
+                    <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Events</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a class="treeview-item" href="{% url 'calendarapp:running_events' %}"><i class="icon fa fa-circle-o"></i> Running</a>
+                        </li>
+                        <li>
+                            <a class="treeview-item" href="{% url 'calendarapp:running_events' %}"><i class="icon fa fa-circle-o"></i> Upcoming</a>
+                        </li>
+                        <li>
+                            <a class="treeview-item" href="{% url 'calendarapp:all_events' %}"><i class="icon fa fa-circle-o"></i> All</a>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if request.user.is_staff %}
+                <li class="treeview">
+                    <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog fa-lg"></i><span class="app-menu__label">Configurações</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li>
+                            <a class="treeview-item" href="{% url 'calendarapp:all_canal' %}"><i class="icon fa fa-circle-o"></i> Canal de Marketing</a>
+                        </li>
+                        <li>
+                            <a class="treeview-item" href="{% url 'calendarapp:all_status' %}"><i class="icon fa fa-circle-o"></i> Status</a>
+                        </li>
+                        <li>
+                            <a class="treeview-item" href="{% url 'accounts:user-list' %}"><i class="icon fa fa-circle-o"></i> Usuários</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+
+                
+                <!-- <li>
+                    <a class="app-menu__item" href="#"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Docs</span></a>
+                </li> -->
+            </ul>
+            <ul class="app-menu app-sidebar__footer">
+                <li class="app-sidebar__user-name">
+                    <img src="{% static 'images/simoeslogo2.png' %}" height="100px" width="200px"/>
+                </li>    
+            </ul>
+        </aside>
+        <main class="app-content">
+            <div class="app-title">
+                {% block breadcrumb %}
+                {% endblock breadcrumb %}
+            </div>
+            {% block content %}
+            {% endblock content %}
+        </main>
+        <!-- Essential javascripts for application to work-->
+        {% include 'base/js.html' %}
+        {% block extrascripts %}
+        {% endblock extrascripts %}
+    </body>
+{% else %}
+    <script>
+        // Exibe o alerta informando sobre a expiração da sessão
+        alert("Sua sessão expirou. Por favor, faça login novamente.");
+        // Redireciona para a página de login após o usuário clicar em "OK"
+        window.location.href = "{% url 'login' %}";        
+    </script>
+{% endif %}
+</html>

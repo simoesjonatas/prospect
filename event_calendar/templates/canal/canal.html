@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Cliente
+{% endblock %}
+
+{% block breadcrumb %}
+<div>
+  <h1><i class="fa fa-cog fa-lg"></i> Canal de Marketing</h1>
+  <p>Editar Canal Marketing</p>
+</div>
+<ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'calendarapp:all_canal' %}">Canal Marketing List</a></li>
+</ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <table class="form form-table">
+    {{ form }}
+    <tr>
+      <!-- <td colspan="1"><button type="cancel" class="btn btn-danger right"> Cancelar </button></td> -->
+      <td colspan="1"><a href="javascript:history.back()" class="btn btn-secondary">Voltar</a></td>
+      <td colspan="1"><button type="submit" class="btn btn-info right"> Salvar </button></td>
+    </tr>
+  </table>
+</form>
+{% endblock %}

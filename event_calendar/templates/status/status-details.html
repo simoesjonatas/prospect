@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Status Details
+{% endblock %}
+{% block breadcrumb %}
+<div>
+    <h1><i class="fa fa-user fa-lg"></i> Status</h1>
+    <p>Status Details</p>
+</div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{% url 'calendarapp:all_status' %}">Status List</a></li>
+    </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="container">
+        <div class="clearfix">
+            <a class="btn btn-primary left" href="{% url 'calendarapp:calendar' %}"> Calendar </a>
+            <a class="btn btn-info right mr-2" href="{% url 'calendarapp:status_edit' event.pk %}"> Editar Status </a>
+        </div>
+
+        <div class="clearfix">
+            <h3>Status: {{ event.nome }}</h3>
+        </div>
+{% endblock %}

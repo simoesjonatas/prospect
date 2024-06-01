@@ -1,0 +1,8 @@
+asgiref==3.7.2
+Django==4.2.7
+django-appconf==1.0.6
+django-axes==6.4.0
+django-select2==8.1.2
+psycopg2-binary==2.9.9
+python-decouple==3.8
+sqlparse==0.4.4

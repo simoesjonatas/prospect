@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Cliente Details
+{% endblock %}
+{% block breadcrumb %}
+<div>
+    <h1><i class="fa fa-user fa-lg"></i> Clientes</h1>
+    <p>Cliente Details</p>
+</div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{% url 'calendarapp:all_clients' %}">Cliente List</a></li>
+    </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="container">
+        <div class="clearfix">
+            <a class="btn btn-primary left" href="{% url 'calendarapp:calendar' %}"> Calendar </a>
+            <a class="btn btn-info right mr-2" href="{% url 'calendarapp:client_edit' event.pk %}"> Editar Cliente </a>
+        </div>
+
+        <div class="clearfix">
+            <hr>
+            <h3>{{ event.nome }} - {{ event.codigo |default_if_none:"" }}</h3>
+            <h5>Status: {{ event.status |default_if_none:"" }}</h5>
+            <ul>
+                <li><strong>Telefone:</strong> {{ event.telefone |default_if_none:"" }}</li>
+                <li><strong>Email:</strong> {{ event.email |default_if_none:"" }}</li>
+                <li><strong>Canal Marketing:</strong> {{ event.canal_marketing |default_if_none:"" }}</li>
+                <li><strong>Usuario Designado:</strong> {{ event.usuario_designado |default_if_none:"" }}</li>
+                
+            </ul>
+        </div>
+        <hr>
+        <div class="clearfix">
+            <a class="btn btn-success right" href="{% url 'calendarapp:criar_evento_cliente' cliente_id=event.id %}"> Adicionar Evento </a>
+            <h4 class="left" > Eventos desse cliente</h4>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Descrição</th>
+                  <th>Data</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for member in eventmember %}
+                <tr role="row">
+                    <td>{{ member.title }}</td>
+                    <td>{{ member.description }}</td>
+                    <td>From {{ member.start_time }} To {{ member.end_time }}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-auto">
+                                <a class="btn btn-info mr-1" href="{% url 'calendarapp:event_edit' member.id %}">Editar</a>
+                            </div>
+                            <!-- <div class="col-auto">
+                                <a class="btn btn-danger ml-1" href="{% url 'calendarapp:delete_event' member.id %}">Remover</a>
+                            </div> -->
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+    </div>
+{% endblock %}
