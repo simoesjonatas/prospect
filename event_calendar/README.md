@@ -1,11 +1,11 @@
-# Event Calendar in Django
+# Prospect Calendar in Django
 
 ## How To Setup
 ```
-git clone https://github.com/sajib1066/event-calendar.git
+git clone https://github.com/simoesjonatas/prospect.git
 ```
 ```
-cd event-calendar
+cd prospect/event-calendar
 ```
 ```
 python3 -m venv venv
