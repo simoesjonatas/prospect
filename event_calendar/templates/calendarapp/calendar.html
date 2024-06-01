@@ -43,7 +43,7 @@
             </div>
 
             <div class="modal fade show" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <h5 class="modal-title text-white" id="exampleModalLongTitle">Adicionar novo Evento</h5>
@@ -53,7 +53,7 @@
                         </div>
                         <form method="post">
                             {% csrf_token %}
-                            <div class="modal-body">
+                            <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">Cliente:</label>
                                     {{ form.cliente }}
@@ -76,13 +76,14 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button id="modalClose2" type="button" class="btn btn-danger">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button id="modalClose2" type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+            
             <div class="modal fade show" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
@@ -142,6 +143,19 @@
 {% block extrascripts %}
 <script src="{% static 'calender/main.js' %}"></script>
 <script>
+    // Função para fechar o modal ao clicar fora dele
+    function closeModalOnOutsideClick(modalId) {
+        const modal = document.getElementById(modalId);
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Chamando a função para ambos os modais
+    closeModalOnOutsideClick('eventModal');
+    closeModalOnOutsideClick('detailModal');
   function converterDataParaDjangoFormat(data) {
       const dataJS = new Date(data);
       const ano = dataJS.getFullYear();

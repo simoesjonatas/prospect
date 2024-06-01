@@ -23,18 +23,18 @@
         <div class="tile row">
             <div class="col-md-3">
                 <div id="external-events">
-                    <h4 class="mb-4">Running Events</h4>
+                    <h4 class="mb-4">Eventos Acontecendo</h4>
                     {% for event in events_month %}
                       <div class="fc-event" onclick="window.location.href='{% url 'calendarapp:client-detail' event.cliente.id %}'">
                           <h3>{{ event.title }}</h3>
                           <h5>{{ event.cliente }}</h5>
                           <p>{{ event.description }}</p>
-                          <p>{{event.id}}</p>
-                          <p>From: {{ event.start_time }}</p>
-                          <p>To: {{ event.end_time }}</p>
+                          <p>Inicio: {{ event.start_time }}</p>
+                          <p>Fim: {{ event.end_time }}</p>
+                          <p>Criador: {{ event.user }}</p>
                       </div>
                     {% empty %}
-                      <p>No Running Events Found</p>
+                      <p>Nenhum Evento Acontecendo agora</p>
                     {% endfor %}
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
-                            <h5 class="modal-title text-white" id="exampleModalLongTitle">Add New Event</h5>
+                            <h5 class="modal-title text-white" id="exampleModalLongTitle">Adicionar novo Evento</h5>
                             <button id="modalClose1" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -59,19 +59,19 @@
                                     {{ form.cliente }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="recipient-name" class="col-form-label">Event Title:</label>
+                                    <label for="recipient-name" class="col-form-label">Titulo do Evento:</label>
                                     {{ form.title }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Description:</label>
+                                    <label for="message-text" class="col-form-label">Descrição:</label>
                                     {{ form.description }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Start Date:</label>
+                                    <label for="message-text" class="col-form-label">Inicio:</label>
                                     {{ form.start_time }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">End Date:</label>
+                                    <label for="message-text" class="col-form-label">Fim:</label>
                                     {{ form.end_time }}
                                 </div>
                             </div>
@@ -98,28 +98,36 @@
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Cliente:</label>
                                 <p id="cliente_event_detail"></p>
-                                <div>
+                                <!-- <div>
                                     <a id="cliente_id_event_detail_link" href="#" type="button" class="btn btn-info">Acessar cliente</a>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="col-form-label">Description:</label>
+                                <label for="message-text" class="col-form-label">Descrição:</label>
                                 <p id = "description_event_detail">
                                 </p>
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="col-form-label">Start:</label>
+                                <label for="message-text" class="col-form-label">Inicio:</label>
                                 <p id = "start_event_detail">
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="col-form-label">End:</label>
+                                <label for="message-text" class="col-form-label">Fim:</label>
                                 <p id = "end_event_detail">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Criador:</label>
+                                <p id = "criador_nome_event">
+                                </p>
                             </div>
                           </div>
                           <div class="modal-footer">
                               <button id="delete-event-button" data-event-id="" type="button" class="btn btn-danger">Delete</button>
                               <button id="add-to-next-week" data-event-id-week="" type="button" class="btn btn-success">Next Week</button>
                               <button id="add-to-next-day" data-event-id-day="" type="button" class="btn btn-primary">Next Day</button>
+                            <div>
+                                <a id="cliente_id_event_detail_link" href="#" type="button" class="btn btn-info">Acessar cliente</a>
+                            </div>
                           </div>
                       </form>
                   </div>
@@ -180,12 +188,14 @@
         eventClick: function(arg) {
           
           console.log('clicked')
+          //console.log(arg.event)
           var title = arg.event.title;
           var start = formatDateTime(arg.event.start) ;
           var end = formatDateTime(arg.event.end);
           var description = arg.event.extendedProps.description || '';
           var cliente = arg.event.extendedProps.cliente || '';
           var clienteId = arg.event.extendedProps.clienteId || '';
+          var criadorEvento = arg.event.extendedProps.criadorEvento || '';
           var id = arg.event.id;
           var clienteLink = document.getElementById('cliente_id_event_detail_link');
 
@@ -208,6 +218,7 @@
           var modalDescripition = document.getElementById('description_event_detail'); 
           var modalCliente = document.getElementById('cliente_event_detail');
           var modalClienteId = document.getElementById('cliente_id_event_detail');
+          var modalCriadorEvento = document.getElementById('criador_nome_event');
           var deleteButton = document.getElementById("delete-event-button");
           var nextWeek = document.getElementById("add-to-next-week");
           var nextDay = document.getElementById("add-to-next-day");
@@ -216,15 +227,14 @@
           nextWeek.setAttribute("data-event-id-week", id);
           nextDay.setAttribute("data-event-id-day", id);
           modal.style.display = 'block' 
-          
           modalTitle.textContent = title;
           modalStart.textContent = start;
           modalEnd.textContent = end;
           modalDescripition.textContent = description;
+          modalCriadorEvento.textContent = criadorEvento;
           modalCliente.textContent = cliente;
           modalClienteId.textContent = clienteId;
-          
-         
+
           modal.style.display = 'block';
         },
         editable: true,
@@ -332,24 +342,6 @@
                 alert('Error!');
             }
         });
-    }
-});
-
-window.addEventListener('click', function(event) {
-    var eventModal = document.getElementById('eventModal');
-    var detailModal = document.getElementById('detailModal');
-    
-    // Verificação se os modais existem e estão visíveis
-    if (eventModal && eventModal.style.display === 'block') {
-        if (!eventModal.querySelector('.modal-content').contains(event.target)) {
-            eventModal.style.display = 'none';
-        }
-    }
-
-    if (detailModal && detailModal.style.display === 'block') {
-        if (!detailModal.querySelector('.modal-content').contains(event.target)) {
-            detailModal.style.display = 'none';
-        }
     }
 });
 

@@ -22,7 +22,7 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         {{ form.media }}
-        
+
         <style>
             .app-sidebar {
                 display: flex;
@@ -81,7 +81,7 @@
             <div class="app-sidebar__user">
                 <img class="app-sidebar__user-avatar" src="{% static 'images/logo_op.png' %}" alt="User Image" height="50px" width="50px"/>
                 <div>
-                    <p class="app-sidebar__user-designation">
+                    <p class="app-sidebar__user-designation2">
                         {%if user%}
                             {{user}}
                         {%endif%}
@@ -133,7 +133,7 @@
                 </li>
                 {% endif %}
 
-                
+
                 <!-- <li>
                     <a class="app-menu__item" href="#"><i class="app-menu__icon fa fa-file-code-o"></i><span class="app-menu__label">Docs</span></a>
                 </li> -->
@@ -141,7 +141,7 @@
             <ul class="app-menu app-sidebar__footer">
                 <li class="app-sidebar__user-name">
                     <img src="{% static 'images/simoeslogo2.png' %}" height="100px" width="200px"/>
-                </li>    
+                </li>
             </ul>
         </aside>
         <main class="app-content">
@@ -162,7 +162,7 @@
         // Exibe o alerta informando sobre a expiração da sessão
         alert("Sua sessão expirou. Por favor, faça login novamente.");
         // Redireciona para a página de login após o usuário clicar em "OK"
-        window.location.href = "{% url 'login' %}";        
+        window.location.href = "{% url 'login' %}";
     </script>
 {% endif %}
 </html>
