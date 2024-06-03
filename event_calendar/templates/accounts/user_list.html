@@ -20,7 +20,7 @@
         <div class="tile">
             <div class="tile-body">
                 <div class="clearfix">
-                    <a class="btn btn-success right" href="{% url 'calendarapp:canal_new' %}"> Adicionar Usuário </a>
+                    <a class="btn btn-success right" href="{% url 'accounts:user_create' %}"> Adicionar Usuário </a>
                 </div>
                 <hr>
                 <div class="table-responsive">
@@ -37,11 +37,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for usario in users %}
-                                            <tr role="row" class="odd" onclick="window.location.href='{% url 'accounts:user-detail' usario.id %}'">
+                                        {% for usuario in users %}
+                                            <tr role="row" class="odd" onclick="window.location.href='{% url 'accounts:user-detail' usuario.id %}'">
                                                 <td class="sorting_1">{{ forloop.counter }}</td>
-                                                <td>{{ usario.email }}</td>
-                                                <td>{{ usario.is_staff }}</td>
+                                                <td>{{ usuario.email }}</td>
+                                                <td>{{ usuario.is_staff|yesno:"Sim,Não" }}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

@@ -1,0 +1,75 @@
+<!-- accounts/user_create.html -->
+
+{% extends 'base/base.html' %}
+
+{% block title %}
+Criar Novo Usuário
+{% endblock %}
+
+{% block breadcrumb %}
+<div>
+    <h1><i class="fa fa-user fa-lg"></i> Usuário</h1>
+    <p>Criar Novo Usuário</p>
+</div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="{% url 'accounts:user-list' %}">Lista de Usuário</a></li>
+    </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="container">
+    <h2>Criar um novo usuário:</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <strong>{{ field.label }}:</strong> {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ form.email.value }}" required>
+        </div>
+        {% if form.email.errors %}
+            <ul class="errorlist">
+                {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        {% if form.senha.errors %}
+            <ul class="errorlist">
+                {% for error in form.senha.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="form-group">
+            <label for="confirm_password">Confirmar Senha:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+        </div>
+        {% if form.confirm_password.errors %}
+            <ul class="errorlist">
+                {% for error in form.confirm_password.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="is_staff" name="is_staff" {% if form.is_staff.value %}checked{% endif %}>
+            <label class="form-check-label" for="is_staff">Supervisor </label>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary">Criar Usuário</button>
+    </form>
+</div>
+{% endblock %}

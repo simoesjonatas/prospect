@@ -44,6 +44,48 @@ class SignUpForm(forms.ModelForm):
             user.save()
         return user
 
+class UserCreationForm(forms.ModelForm):
+    password = forms.CharField(
+        label='Senha',
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+    )
+    confirm_password = forms.CharField(
+        label='Confirmar Senha',
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+    )
+
+    class Meta:
+        model = User
+        labels = {
+            "is_staff": "Supervisor",
+        }
+        
+        fields = ['email', 'password', 'confirm_password', 'is_staff']
+        
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'is_staff': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get("password")
+        confirm_password = self.cleaned_data.get("confirm_password")
+        if password and confirm_password and password != confirm_password:
+            raise forms.ValidationError("As senhas não coincidem")
+        return confirm_password
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['confirm_password'].error_messages = {'required': 'Este campo é obrigatório', 'invalid': 'As senhas não coincidem'}
+
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:

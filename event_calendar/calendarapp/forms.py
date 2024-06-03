@@ -10,6 +10,13 @@ class EventForm(ModelForm):
         model = Event
         fields = ["cliente", "title", "description", "start_time", "end_time"]
         # datetime-local is a HTML5 input type
+        labels = {
+            "cliente": "Cliente",
+            "title": "Título do Evento",
+            "description": "Descrição do Evento",
+            "start_time": "Data e Hora de Início",
+            "end_time": "Data e Hora de Término",
+        }
         widgets = {
             # select search in django
             # pip install django-select2
@@ -22,12 +29,12 @@ class EventForm(ModelForm):
                 attrs={'class': 'form-control', 'style': 'width: 100%;'}# Ajuste o campo de busca conforme necessário
             ),
             "title": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter event title"}
+                attrs={"class": "form-control", "placeholder": "Insira o título do evento"}
             ),
             "description": forms.Textarea(
                 attrs={
                     "class": "form-control",
-                    "placeholder": "Enter event description",
+                    "placeholder": "Insira a descrição do evento",
                 }
             ),
             "start_time": DateInput(

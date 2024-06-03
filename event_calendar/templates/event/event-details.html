@@ -18,13 +18,13 @@ Event Details
     <div class="container">
         <div class="clearfix">
             <a class="btn btn-primary left" href="{% url 'calendarapp:calendar' %}"> Calendar </a>
-            <a class="btn btn-info right mr-2" href="{% url 'calendarapp:event_edit' event.pk %}"> Editar Event </a>
+            <a class="btn btn-info right mr-2" href="{% url 'calendarapp:event_edit' event.pk %}"> Editar Evento </a>
         </div>
 
         <div class="clearfix">
             <hr>
             <h3>{{ event.title }}</h3>
-            <h5>From <span style="color: gray;">{{ event.start_time }}</span> To <span style="color: gray;">{{ event.end_time }}</span></h5>
+            <h5>Inicío: <span style="color: gray;">{{ event.start_time }}</span> Fim: <span style="color: gray;">{{ event.end_time }}</span></h5>
             <hr>
             <section class="section">
                 {{ event.description }}

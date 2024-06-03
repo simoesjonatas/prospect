@@ -71,14 +71,23 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_URL = '/accounts/signin/'
 
-# Número máximo de tentativas de login permitidas antes do bloqueio
-AXES_FAILURE_LIMIT = 4
+# # Número máximo de tentativas de login permitidas antes do bloqueio
+# AXES_FAILURE_LIMIT = 4
 # Tempo de espera antes de desbloquear a conta após atingir o limite de falhas (em minutos)
 AXES_COOLOFF_TIME = 1
 # qualquer aparelho o usuario vai ser bloqueado
 AXES_LOCK_OUT_AT_FAILURE = True
-
+# Configura o Django Axes para bloquear apenas com base no nome de usuário
+AXES_USERNAME_FAILURE_LIMIT = 5
 AXES_RESET_ON_SUCCESS = True
+AXES_USERNAME_FAILURES_ONLY = True
+AXES_CACHE = 'default'
+# refer to the Django request and response objects documentation
+AXES_IPWARE_META_PRECEDENCE_ORDER = [
+    'HTTP_X_FORWARDED_FOR',
+    'REMOTE_ADDR',
+]
+
 
 # Define se a sessão expira quando o navegador é fechado
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
