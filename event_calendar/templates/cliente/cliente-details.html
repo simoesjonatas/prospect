@@ -30,6 +30,7 @@ Cliente Details
                 <li><strong>Email:</strong> {{ event.email |default_if_none:"" }}</li>
                 <li><strong>Canal Marketing:</strong> {{ event.canal_marketing |default_if_none:"" }}</li>
                 <li><strong>Usuario Designado:</strong> {{ event.usuario_designado |default_if_none:"" }}</li>
+                <li><strong>Cadastro:</strong> {{ event.data_criacao |default_if_none:"" }}</li>
                 
             </ul>
         </div>

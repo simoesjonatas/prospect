@@ -44,7 +44,8 @@
                                     <thead>
                                         <tr role="row">
                                             <!-- <th class="sorting_asc" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 261.641px;">ID</th> -->
-                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 102.141px;">Cod.</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;" aria-sort="ascending">Cadastro</th>
+                                            <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Name: activate to sort column descending" style="width: 102.141px;">Cod.</th>
                                             <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 417.312px;">Nome</th>
                                             <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 189.281px;">Telefone</th>
                                             <th class="sorting" tabindex="0" aria-controls="sampleTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 102.141px;">Email</th>
@@ -56,6 +57,7 @@
                                         {% for event in object_list %}
                                             <tr role="row" class="odd" onclick="window.location.href='{% url 'calendarapp:client-detail' event.id %}'">
                                                 <!-- <td class="sorting_1">{{ forloop.counter }}</td> -->
+                                                <td>{{ event.data_criacao |default_if_none:"" }}</td>
                                                 <td>{{ event.codigo |default_if_none:"" }}</td>
                                                 <td>{{ event.nome }}</td>
                                                 <td>{{ event.telefone |default_if_none:"" }}</td>
